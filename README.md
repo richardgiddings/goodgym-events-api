@@ -4,7 +4,7 @@
 
 Using the GoodGym data described at https://github.com/good-gym/opendata, get upcoming events for a location.
 
-Gets future event data from GoodGym for the location LOCATION (environment variable) and exposes it in a FastAPI endpoint to be consumed by a front end. The initial data load is done during startup then the idea will be that whenever we hit the endpoint we get any updates to the data and add it before returning.
+Gets future event data from GoodGym for the location LOCATION (environment variable) and exposes it in a [FastAPI](https://fastapi.tiangolo.com/) endpoint to be consumed by a front end. The initial data load is done during startup then the idea will be that whenever we hit the endpoint we get any updates to the data and add it before returning.
 
 Setup to deploy to [Render](https://render.com/docs/deploy-fastapi).
 
