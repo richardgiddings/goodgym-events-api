@@ -39,4 +39,6 @@ http://127.0.0.1:8000/events/
 
 ## Changes Needed
 
-At the moment it only gets the first page of data but its unclear how the next link works at the moment to get subsequent data. [This](https://openactive.io/realtime-paged-data-exchange/#:~:text=4.3.1%20Modified%20Timestamp%20and%20ID) is how the next data should work I believe. 
+- Need to handle updates properly (state in returned data). For example the data could contain two update references to an event and we need to handle these in the correct order.
+
+- At the moment it only gets the first page of data but its unclear how the next link works at the moment to get subsequent data. [This](https://openactive.io/realtime-paged-data-exchange/#:~:text=4.3.1%20Modified%20Timestamp%20and%20ID) is how the next data should work I believe. 
