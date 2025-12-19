@@ -61,4 +61,4 @@ async def root():
 
 @app.get("/events/")
 def read_events():
-    return {"items": [ x for x in OUTPUT_DICT.values() ]}
+    return {"events": [ x for x in OUTPUT_DICT.values() ]}
