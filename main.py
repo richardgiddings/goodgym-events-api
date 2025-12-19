@@ -12,7 +12,7 @@ NEXT_LINK = ""
 def load_data():
     NEXT_LINK = "https://www.goodgym.org/api/openactive/events"
 
-    # get data from GoodGym endpoin
+    # get data from GoodGym endpoint
     response = requests.get(NEXT_LINK)
     data_json = response.json()
 
