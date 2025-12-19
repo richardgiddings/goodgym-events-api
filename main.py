@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from decouple import config
+from fastapi.middleware.cors import CORSMiddleware
 
 import requests
 import json
@@ -42,6 +43,17 @@ async def lifespan(app: FastAPI):
     OUTPUT_DICT.clear()
 
 app = FastAPI(lifespan=lifespan)
+
+# CORS middleware
+ALLOWED_ORIGINS = config("ALLOWED_ORIGINS")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,  # set this once we are no longer testing locally
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"]
+)
 
 @app.get("/")
 async def root():
