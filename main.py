@@ -7,15 +7,30 @@ import json
 
 LOCATION = config("LOCATION")
 OUTPUT_DICT = {}
+NEXT_LINK = ""
 
 def load_data():
-    response = requests.get('https://www.goodgym.org/api/openactive/events')
-    data_json = response.json()
-    data_items = data_json["items"]
-    data_string = json.dumps(data_items)
-    input_dict = json.loads(data_string)
+    NEXT_LINK = "https://www.goodgym.org/api/openactive/events"
 
-    for x in input_dict:
+    # get data from GoodGym endpoin
+    response = requests.get(NEXT_LINK)
+    data_json = response.json()
+
+    # extract event data and next link
+    data_items = data_json["items"]
+    NEXT_LINK = data_json["next"]
+    print(NEXT_LINK)
+
+    # put the items data in a dict
+    items_string = json.dumps(data_items)
+    input_dict = json.loads(items_string)
+
+    # order the data by "modified" so we can process in correct order
+    input_list = [[x["modified"], x] for x in input_dict]
+    sorted(input_list, key=lambda l:l[0])
+
+    # now process the data
+    for modified, x in input_list:
         if "data" in x and (x["data"]["location"]["address"]["addressLocality"] == LOCATION):
             OUTPUT_DICT[x["id"]] = x
         elif x["state"] == "deleted":
