@@ -19,7 +19,6 @@ def load_data():
     # extract event data and next link
     data_items = data_json["items"]
     NEXT_LINK = data_json["next"]
-    print(NEXT_LINK)
 
     # put the items data in a dict
     items_string = json.dumps(data_items)
