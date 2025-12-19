@@ -8,6 +8,9 @@ Gets future event data from GoodGym for the location LOCATION (environment varia
 
 Setup to deploy to [Render](https://render.com/docs/deploy-fastapi).
 
+A front end is being worked on here:
+https://github.com/richardgiddings/goodgym-events-frontend
+
 ## To install and run
 
 To start with you need python installed, then...
