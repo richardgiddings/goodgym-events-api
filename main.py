@@ -61,6 +61,29 @@ async def root():
 
 @app.get("/events/")
 def read_events():
+    
+    # create events list
     events_list = [ x for x in OUTPUT_DICT.values() ]
     events_list.sort(key=lambda event: event["data"]["startDate"])
-    return {"events": events_list}
+
+    # create list of locations
+    locations = []
+    group_run_added = False
+    for event in events_list:
+        if event["data"]["programme"]["name"] == "Group Run":
+            if group_run_added:
+                continue
+            name = "Group Run/Walk"
+            group_run_added = True
+        else:
+            name = event["data"]["name"]
+        
+        locations.append(
+                {
+                    "name": name, 
+                    "longitude": event["data"]["location"]["geo"]["longitude"],
+                    "latitude": event["data"]["location"]["geo"]["latitude"] 
+                }
+            )
+
+    return {"events": events_list, "locations": locations}
