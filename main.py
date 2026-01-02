@@ -74,15 +74,23 @@ def read_events():
             if group_run_added:
                 continue
             name = "Group Run/Walk"
+            task_type = "GR/W"
+            background = "red"
             group_run_added = True
         else:
             name = event["data"]["name"]
+            task_type = "CM"
+            background = "orange"
         
         locations.append(
                 {
                     "name": name, 
-                    "longitude": event["data"]["location"]["geo"]["longitude"],
-                    "latitude": event["data"]["location"]["geo"]["latitude"] 
+                    "position": {
+                        "lat": event["data"]["location"]["geo"]["latitude"], 
+                        "lng": event["data"]["location"]["geo"]["longitude"]
+                    },
+                    "type": task_type,
+                    "background": background
                 }
             )
 
