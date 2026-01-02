@@ -61,4 +61,6 @@ async def root():
 
 @app.get("/events/")
 def read_events():
-    return {"events": [ x for x in OUTPUT_DICT.values() ]}
+    events_list = [ x for x in OUTPUT_DICT.values() ]
+    events_list.sort(key=lambda event: event["data"]["startDate"])
+    return {"events": events_list}
