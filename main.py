@@ -13,20 +13,25 @@ NEXT_LINK = ""
 def load_data():
     NEXT_LINK = "https://www.goodgym.org/api/openactive/events"
 
-    # get data from GoodGym endpoint
-    response = requests.get(NEXT_LINK)
-    data_json = response.json()
+    input_list = []
+    data_items = "initialised"
+    while data_items:
 
-    # extract event data and next link
-    data_items = data_json["items"]
-    NEXT_LINK = data_json["next"]
+        # get data from GoodGym endpoint
+        response = requests.get(NEXT_LINK)
+        data_json = response.json()
 
-    # put the items data in a dict
-    items_string = json.dumps(data_items)
-    input_dict = json.loads(items_string)
+        # extract event data and next link
+        data_items = data_json["items"]
+        NEXT_LINK = data_json["next"]
+
+        # put the items data in a dict
+        items_string = json.dumps(data_items)
+        input_dict = json.loads(items_string)
+
+        input_list.extend([[x["modified"], x] for x in input_dict])
 
     # order the data by "modified" so we can process in correct order
-    input_list = [[x["modified"], x] for x in input_dict]
     sorted(input_list, key=lambda l:l[0])
 
     # now process the data
@@ -70,17 +75,28 @@ def read_events():
     locations = []
     group_run_added = False
     for event in events_list:
-        if event["data"]["programme"]["name"] == "Group Run":
+        event_type = event["data"]["programme"]["name"]
+        if event_type == "Group Run":
             if group_run_added:
                 continue
             name = "Group Run/Walk"
-            task_type = "GR/W"
-            background = "red"
+            background = "#e11018"
             group_run_added = True
+        elif event_type == "Community Mission":
+            name = event["data"]["name"]
+            background = "#d66c20"
+        elif event_type == "Party":
+            name = event["data"]["name"]
+            background = "#b176db"
+        elif event_type == "Race":
+            name = event["data"]["name"]
+            background = "#639be6"
+        elif event_type == "Training Session":
+            name = event["data"]["name"]
+            background = "#88c77b"
         else:
             name = event["data"]["name"]
-            task_type = "CM"
-            background = "orange"
+            background = "white"
         
         locations.append(
                 {
@@ -89,7 +105,6 @@ def read_events():
                         "lat": event["data"]["location"]["geo"]["latitude"], 
                         "lng": event["data"]["location"]["geo"]["longitude"]
                     },
-                    "type": task_type,
                     "background": background
                 }
             )

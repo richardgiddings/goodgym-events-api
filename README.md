@@ -42,6 +42,7 @@ http://127.0.0.1:8000/events/
 
 ## Changes Needed
 
-- At the moment it only gets the first page of data but its unclear how the next link works at the moment to get subsequent data. [This](https://openactive.io/realtime-paged-data-exchange/#:~:text=4.3.1%20Modified%20Timestamp%20and%20ID) is how the next data should work I believe. 
-
-- Break up into categories for Eats, Race, Party, Training Session, Document Check (maybe skip this one). Will need front end work too.
+- Updates by calling next link in read_events
+- Not handling cancellations (not a delete?)
+- Colour the activity type headers in list of events
+- Only have the colour in one place
