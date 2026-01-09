@@ -42,7 +42,6 @@ http://127.0.0.1:8000/events/
 
 ## Changes Needed
 
-- Updates by calling next link in read_events
 - Not handling cancellations (not a delete?)
 - Colour the activity type headers in list of events
 - Only have the colour in one place

@@ -8,14 +8,16 @@ import json
 
 LOCATION = config("LOCATION")
 OUTPUT_DICT = {}
-NEXT_LINK = ""
+NEXT_LINK = "https://www.goodgym.org/api/openactive/events"
 
-def load_data():
-    NEXT_LINK = "https://www.goodgym.org/api/openactive/events"
+def get_data():
+    global NEXT_LINK
 
     input_list = []
     data_items = "initialised"
     while data_items:
+
+        print(f"Getting data from {NEXT_LINK}")
 
         # get data from GoodGym endpoint
         response = requests.get(NEXT_LINK)
@@ -25,16 +27,16 @@ def load_data():
         data_items = data_json["items"]
         NEXT_LINK = data_json["next"]
 
-        # put the items data in a dict
-        items_string = json.dumps(data_items)
-        input_dict = json.loads(items_string)
+        if data_items:
+            # put the items data in a dict
+            items_string = json.dumps(data_items)
+            input_dict = json.loads(items_string)
 
-        input_list.extend([[x["modified"], x] for x in input_dict])
+            input_list.extend([[x["modified"], x] for x in input_dict])
 
     # order the data by "modified" so we can process in correct order
     sorted(input_list, key=lambda l:l[0])
 
-    # now process the data
     for modified, x in input_list:
         if "data" in x and (x["data"]["location"]["address"]["addressLocality"] == LOCATION):
             OUTPUT_DICT[x["id"]] = x
@@ -43,7 +45,7 @@ def load_data():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    load_data()
+    get_data()
     yield
     OUTPUT_DICT.clear()
 
@@ -66,6 +68,9 @@ async def root():
 
 @app.get("/events/")
 def read_events():
+    
+    # update the data using next link
+    get_data()
     
     # create events list
     events_list = [ x for x in OUTPUT_DICT.values() ]
