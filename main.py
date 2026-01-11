@@ -40,7 +40,9 @@ def get_data():
     for modified, x in input_list:
         if "data" in x and (x["data"]["location"]["address"]["addressLocality"] == LOCATION):
             OUTPUT_DICT[x["id"]] = x
+            print(f"UPDATE ID: {x["id"]} ({x["data"]["name"]})")
         elif x["state"] == "deleted":
+            print(f"DELETE ID: {x["id"]}")
             OUTPUT_DICT.pop(x["id"], None)
 
 @asynccontextmanager
@@ -79,6 +81,7 @@ def read_events():
     # create list of locations
     locations = []
     group_run_added = False
+    location_number = 1
     for event in events_list:
         event_type = event["data"]["programme"]["name"]
         if event_type == "Group Run":
@@ -105,6 +108,7 @@ def read_events():
         
         locations.append(
                 {
+                    "number": location_number,
                     "name": name, 
                     "position": {
                         "lat": event["data"]["location"]["geo"]["latitude"], 
@@ -113,5 +117,6 @@ def read_events():
                     "background": background
                 }
             )
+        location_number += 1
 
     return {"events": events_list, "locations": locations}
