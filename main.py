@@ -81,7 +81,7 @@ def read_events():
     # create list of locations
     locations = []
     group_run_added = False
-    location_number = 1
+    location_number = 0
     for event in events_list:
         event_type = event["data"]["programme"]["name"]
         if event_type == "Group Run":
