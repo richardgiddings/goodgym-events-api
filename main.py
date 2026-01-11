@@ -90,29 +90,36 @@ def read_events():
             name = "Group Run/Walk"
             background = "#e11018"
             group_run_added = True
-        elif event_type == "Community Mission":
-            name = event["data"]["name"]
-            background = "#d66c20"
-        elif event_type == "Party":
-            name = event["data"]["name"]
-            background = "#b176db"
-        elif event_type == "Race":
-            name = event["data"]["name"]
-            background = "#639be6"
-        elif event_type == "Training Session":
-            name = event["data"]["name"]
-            background = "#88c77b"
+
+            latitude = 51.45110
+            longitude = -2.5926500
         else:
-            name = event["data"]["name"]
-            background = "white"
+            if event_type == "Community Mission":
+                name = event["data"]["name"]
+                background = "#d66c20"
+            elif event_type == "Party":
+                name = event["data"]["name"]
+                background = "#b176db"
+            elif event_type == "Race":
+                name = event["data"]["name"]
+                background = "#639be6"
+            elif event_type == "Training Session":
+                name = event["data"]["name"]
+                background = "#88c77b"
+            else:
+                name = event["data"]["name"]
+                background = "white"
+            
+            latitude = event["data"]["location"]["geo"]["latitude"]
+            longitude = event["data"]["location"]["geo"]["longitude"]
         
         locations.append(
                 {
                     "number": location_number,
                     "name": name, 
                     "position": {
-                        "lat": event["data"]["location"]["geo"]["latitude"], 
-                        "lng": event["data"]["location"]["geo"]["longitude"]
+                        "lat": latitude, 
+                        "lng": longitude
                     },
                     "background": background
                 }

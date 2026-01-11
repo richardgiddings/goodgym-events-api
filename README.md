@@ -43,4 +43,3 @@ http://127.0.0.1:8000/events/
 ## Changes Needed
 
 - Not handling cancellations (not a delete?)
-- Group runs and Three Brothers have the same coords so won't show one on map
