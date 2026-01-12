@@ -38,7 +38,7 @@ def get_data():
     sorted(input_list, key=lambda l:l[0])
 
     for modified, x in input_list:
-        if "data" in x and (x["data"]["location"]["address"]["addressLocality"] == LOCATION):
+        if x["state"] == "updated" and x["data"]["location"]["address"]["addressLocality"] == LOCATION:
             OUTPUT_DICT[x["id"]] = x
             print(f"UPDATE ID: {x["id"]} ({x["data"]["name"]})")
         elif x["state"] == "deleted":
