@@ -42,4 +42,6 @@ http://127.0.0.1:8000/events/
 
 ## Changes Needed
 
-- Not handling cancellations (not a delete?)
+Questions round deletes and cancellations of events
+- Not handling cancellations?
+- When do we get deletes as it doesn't appear to be for events that have passed?
