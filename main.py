@@ -2,9 +2,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from decouple import config
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
 
 import requests
 import json
+import pytz
 
 LOCATION = config("LOCATION")
 OUTPUT_DICT = {}
@@ -76,13 +78,20 @@ def read_events():
     
     # create events list
     events_list = [ x for x in OUTPUT_DICT.values() ]
-    events_list.sort(key=lambda event: event["data"]["startDate"])
+
+    future_events_list = list(
+        filter(
+            lambda event: datetime.strptime(event["data"]["startDate"], "%Y-%m-%dT%H:%M:%S%z") > datetime.now(pytz.utc), 
+            events_list
+        ))
+
+    future_events_list.sort(key=lambda event: event["data"]["startDate"])
 
     # create list of locations
     locations = []
     group_run_added = False
     location_number = 0
-    for event in events_list:
+    for event in future_events_list:
         event_type = event["data"]["programme"]["name"]
         if event_type == "Group Run":
             if group_run_added:
@@ -126,4 +135,4 @@ def read_events():
             )
         location_number += 1
 
-    return {"events": events_list, "locations": locations}
+    return {"events": future_events_list, "locations": locations}
