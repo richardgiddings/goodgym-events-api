@@ -133,7 +133,8 @@ def read_events():
             locations.append(
                     {
                         "number": location_number,
-                        "name": name, 
+                        "name": name,
+                        "event_type": event_type, 
                         "position": {
                             "lat": latitude, 
                             "lng": longitude
