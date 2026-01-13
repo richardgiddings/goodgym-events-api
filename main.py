@@ -121,18 +121,26 @@ def read_events():
             
             latitude = event["data"]["location"]["geo"]["latitude"]
             longitude = event["data"]["location"]["geo"]["longitude"]
+
+        # when the location already exists just add the new event to the name
+        found = False
+        for i, location in enumerate(locations):
+            if latitude == location.get("position").get("lat") and longitude == location.get("position").get("lng"):
+                location["name"] += "\n" + name
+                found = True
         
-        locations.append(
-                {
-                    "number": location_number,
-                    "name": name, 
-                    "position": {
-                        "lat": latitude, 
-                        "lng": longitude
-                    },
-                    "background": background
-                }
-            )
-        location_number += 1
+        if not found:
+            locations.append(
+                    {
+                        "number": location_number,
+                        "name": name, 
+                        "position": {
+                            "lat": latitude, 
+                            "lng": longitude
+                        },
+                        "background": background
+                    }
+                )
+            location_number += 1
 
     return {"events": future_events_list, "locations": locations}
