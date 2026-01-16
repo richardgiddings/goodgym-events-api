@@ -100,8 +100,8 @@ def read_events():
             background = "#e11018"
             group_run_added = True
 
-            latitude = 51.45110
-            longitude = -2.5926500
+            latitude = config("GROUP_RUN_START_LATITUDE")
+            longitude = config("GROUP_RUN_START_LONGITUDE")
         else:
             if event_type == "Community Mission":
                 name = event["data"]["name"]

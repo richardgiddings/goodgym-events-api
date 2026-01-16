@@ -32,7 +32,13 @@ Hit the endpoint with:
 ```
 http://127.0.0.1:8000/events/
 ```
-(Note the location in a .env file or environment variable determines the location data is returned for)
+
+## Environment variables
+
+- LOCATION: The location we are filtering events for
+- ALLOWED_ORIGINS: Where we can call the endpoint from
+- GROUP_RUN_START_LATITUDE: Group run start latitude
+- GROUP_RUN_START_LONGITUDE@ Group run start longitude
 
 ## Links
 
