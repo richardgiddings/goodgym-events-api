@@ -46,8 +46,8 @@ http://127.0.0.1:8000/events/
 - [GoodGym GitHub Repo](https://github.com/good-gym/opendata)
 - [OpenActive Specification](https://openactive.io/realtime-paged-data-exchange/)
 
-## Changes Needed
+## Unanswered questions
 
-Questions round deletes and cancellations of events
-- Not handling cancellations?
+Questions around deletes and cancellations of events:
+- Not handling cancellations? - I think this is a piece of missing data?
 - When do we get deletes as it doesn't appear to be for events that have passed?
