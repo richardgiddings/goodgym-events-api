@@ -92,56 +92,62 @@ def read_events():
     group_run_added = False
     location_number = 0
     for event in future_events_list:
-        event_type = event["data"]["programme"]["name"]
-        if event_type == "Group Run":
-            if group_run_added:
-                continue
-            name = "Group Run/Walk"
-            background = "#e11018"
-            group_run_added = True
 
-            latitude = float(config("GROUP_RUN_START_LATITUDE"))
-            longitude = float(config("GROUP_RUN_START_LONGITUDE"))
-        else:
-            if event_type == "Community Mission":
-                name = event["data"]["name"]
-                background = "#d66c20"
-            elif event_type == "Party":
-                name = event["data"]["name"]
-                background = "#b176db"
-            elif event_type == "Race":
-                name = event["data"]["name"]
-                background = "#639be6"
-            elif event_type == "Training Session":
-                name = event["data"]["name"]
-                background = "#88c77b"
-            else:
-                name = event["data"]["name"]
-                background = "white"
-            
-            latitude = event["data"]["location"]["geo"]["latitude"]
-            longitude = event["data"]["location"]["geo"]["longitude"]
-
-        # when the location already exists just add the new event to the name
-        found = False
-        for i, location in enumerate(locations):
-            if latitude == location.get("position").get("lat") and longitude == location.get("position").get("lng"):
-                location["name"] += "\n" + name
-                found = True
+        try:
         
-        if not found:
-            locations.append(
-                    {
-                        "number": location_number,
-                        "name": name,
-                        "event_type": event_type, 
-                        "position": {
-                            "lat": latitude, 
-                            "lng": longitude
-                        },
-                        "background": background
-                    }
-                )
-            location_number += 1
+            event_type = event["data"]["programme"]["name"]
+            if event_type == "Group Run":
+                if group_run_added:
+                    continue
+                name = "Group Run/Walk"
+                background = "#e11018"
+                group_run_added = True
+
+                latitude = float(config("GROUP_RUN_START_LATITUDE"))
+                longitude = float(config("GROUP_RUN_START_LONGITUDE"))
+            else:
+                if event_type == "Community Mission":
+                    name = event["data"]["name"]
+                    background = "#d66c20"
+                elif event_type == "Party":
+                    name = event["data"]["name"]
+                    background = "#b176db"
+                elif event_type == "Race":
+                    name = event["data"]["name"]
+                    background = "#639be6"
+                elif event_type == "Training Session":
+                    name = event["data"]["name"]
+                    background = "#88c77b"
+                else:
+                    name = event["data"]["name"]
+                    background = "white"
+                
+                latitude = event["data"]["location"]["geo"]["latitude"]
+                longitude = event["data"]["location"]["geo"]["longitude"]
+
+            # when the location already exists just add the new event to the name
+            found = False
+            for i, location in enumerate(locations):
+                if latitude == location.get("position").get("lat") and longitude == location.get("position").get("lng"):
+                    location["name"] += "\n" + name
+                    found = True
+            
+            if not found:
+                locations.append(
+                        {
+                            "number": location_number,
+                            "name": name,
+                            "event_type": event_type, 
+                            "position": {
+                                "lat": latitude, 
+                                "lng": longitude
+                            },
+                            "background": background
+                        }
+                    )
+                location_number += 1
+        except:
+            print(f"There was a problem getting the location for: {event}")
+            continue
 
     return {"events": future_events_list, "locations": locations}
