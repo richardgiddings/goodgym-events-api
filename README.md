@@ -35,10 +35,18 @@ http://127.0.0.1:8000/events/
 
 ## Environment variables
 
-- LOCATION: The location we are filtering events for
+- LOCATION: The location we are filtering events for (should match location in data)
 - ALLOWED_ORIGINS: Where we can call the endpoint from
 - GROUP_RUN_START_LATITUDE: Group run start latitude
-- GROUP_RUN_START_LONGITUDE@ Group run start longitude
+- GROUP_RUN_START_LONGITUDE: Group run start longitude
+
+Examples:
+```
+LOCATION=Bristol
+ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173,http://localhost:8080,http://127.0.0.1:8080
+GROUP_RUN_START_LATITUDE=51.45110
+GROUP_RUN_START_LONGITUDE=-2.5926500
+```
 
 ## Links
 
